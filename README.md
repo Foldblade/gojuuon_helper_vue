@@ -10,3 +10,5 @@
 
 文档 wiki ：https://gitee.com/xujcwwahzxh/gojuuon_helper/wikis
 
+意见与建议请发 issue 。文档统一采用 Markdown 格式。请在 develop 分支进行开发， master 仅作发版之用。
+
