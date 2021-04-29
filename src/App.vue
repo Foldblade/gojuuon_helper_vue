@@ -1,0 +1,182 @@
+<template>
+  <header>
+    <nav class="mdui-appbar mdui-appbar-fixed">
+      <div class="mdui-toolbar mdui-color-theme">
+        <span
+          class="mdui-btn mdui-btn-icon"
+          mdui-drawer="{target: '#left-drawer'}"
+          ><i class="mdui-icon material-icons">menu</i></span
+        >
+        <!-- 大屏显示 App Title 和当前路由 Title  -->
+        <router-link to="/" class="mdui-typo-headline mdui-hidden-sm-down"
+          >五十音助手</router-link
+        >
+        <span class="mdui-typo-title mdui-hidden-sm-down">{{
+          appbarTitle
+        }}</span>
+        <!-- 小屏仅显示当前路由 Title  -->
+        <span class="mdui-typo-headline mdui-hidden-md-up">{{
+          appbarTitle
+        }}</span>
+
+        <div class="mdui-toolbar-spacer mdui-hidden-sm-down"></div>
+      </div>
+    </nav>
+    <div class="mdui-drawer mdui-shadow-3" id="left-drawer">
+      <ul class="mdui-list">
+        <li class="mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons">home</i>
+          <router-link to="/" class="mdui-list-item-content">首页</router-link>
+        </li>
+        <li class="mdui-subheader-inset">学习</li>
+        <li class="mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons">table_view</i>
+          <router-link to="/table" class="mdui-list-item-content"
+            >五十音图</router-link
+          >
+        </li>
+        <li class="mdui-subheader-inset">练习</li>
+        <li class="mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons"
+            >follow_the_signs</i
+          >
+          <router-link to="/practise/normal" class="mdui-list-item-content"
+            >普通模式</router-link
+          >
+        </li>
+        <li class="mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons">bolt</i>
+          <router-link to="/practise/fast" class="mdui-list-item-content"
+            >快速模式</router-link
+          >
+        </li>
+        <li class="mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons"
+            >self_improvement</i
+          >
+          <router-link to="/practise/zen" class="mdui-list-item-content"
+            >禅模式</router-link
+          >
+        </li>
+        <li class="mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons">preview</i>
+          <router-link to="/practise/review" class="mdui-list-item-content"
+            >复习模式</router-link
+          >
+        </li>
+        <li class="mdui-subheader-inset">个人</li>
+        <li class="mdui-list-item mdui-ripple">
+          <i class="mdui-list-item-icon mdui-icon material-icons"
+            >manage_accounts</i
+          >
+          <router-link to="/personalCenter" class="mdui-list-item-content"
+            >个人中心</router-link
+          >
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <router-view v-on:updateAppbarTitle="updateAppbarTitle" />
+  </main>
+
+  <footer class="mdui-m-t-3">
+    <div class="mdui-appbar">
+      <div class="mdui-hidden-sm-down mdui-color-theme">
+        <div class="mdui-container mdui-typo">
+          <div class="mdui-row">
+            <div class="mdui-col-md-5 mdui-col-sm-12">
+              <h4 class="mdui-text-color-white">五十音助手<br /></h4>
+              <p
+                class="mdui-text-color-white-secondary mdui-typo-caption-opacity mdui-m-b-2"
+              >
+                本站需使用如Firefox或Chrome等现代浏览器，方有完整浏览体验。如遇功能缺失，请更换您的浏览器再试。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          style="background: rgba(0, 0, 0, 0.15)"
+          class="mdui-p-y-1 mdui-typo"
+        >
+          <div class="mdui-container">
+            <span class="mdui-text-color-white-secondary" id="copyright"
+              >© {{ updateCopyright() }}</span
+            >
+            <span class="mdui-text-color-theme-secondary mdui-m-l-1"
+              ><a
+                class="mdui-text-color-white-secondary"
+                href="https://github.com/foldblade/gojuuon_helper"
+                >五十音助手</a
+              ></span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="mdui-bottom-nav mdui-color-white mdui-hidden-md-up mdui-bottom-nav-scroll-hide"
+      >
+        <router-link to="/" class="mdui-ripple">
+          <i class="mdui-icon material-icons">home</i>
+          <label>首页</label>
+        </router-link>
+        <router-link to="/#practice" class="mdui-ripple">
+          <i class="mdui-icon material-icons">fitness_center</i>
+          <label>练习</label>
+        </router-link>
+        <router-link to="/personalCenter.html" class="mdui-ripple">
+          <i class="mdui-icon material-icons">manage_accounts</i>
+          <label>个人中心</label>
+        </router-link>
+      </div>
+    </div>
+  </footer>
+</template>
+
+<style>
+/* 重写 mdui-bottom-nav-fixed，以达到响应式固定底部栏 */
+.mdui-bottom-nav-fixed {
+  padding-bottom: 0px;
+}
+@media (max-width: 1023.9px) {
+  .mdui-bottom-nav-fixed {
+    padding-bottom: 56px;
+  }
+}
+</style>
+
+<script>
+export default {
+  name: "App",
+  data() {
+    return {
+      appbarTitle: "",
+      appbarSubtitle: "",
+    };
+  },
+  created() {
+    console.log("App created");
+    this.updateTitle("五十音助手");
+  },
+  mounted() {
+    console.log("App mounted");
+  },
+  methods: {
+    updateTitle(titleName) {
+      document.title = titleName;
+    },
+    updateCopyright() {
+      var myDate = new Date();
+      var year = myDate.getFullYear();
+      return year;
+    },
+    updateAppbarTitle(appbarTitle) {
+      console.log(appbarTitle);
+      this.appbarTitle = appbarTitle;
+    },
+  },
+};
+</script>

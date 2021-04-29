@@ -10,5 +10,13 @@
 
 文档 wiki ：https://gitee.com/xujcwwahzxh/gojuuon_helper/wikis
 
-意见与建议请发 issue 。文档统一采用 Markdown 格式。请在 dev 分支进行开发， master 仅作发版之用。
+意见与建议请发 issue 。文档统一采用 Markdown 格式。请在 dev 分支进行开发， master 仅作发版之用。文档中禁止出现无意义的文本。
 
+## 开始贡献
+
+您需要安装 Node.js 环境。
+
+1. git clone
+2. cd into this repo's dir
+3. npm install
+4. npm run serve
