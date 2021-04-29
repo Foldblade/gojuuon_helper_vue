@@ -6,9 +6,13 @@
 
 五十音助手（Gojuuon helper）是一个日语五十音学习软件。
 
-代码仓库：https://gitee.com/xujcwwahzxh/gojuuon_helper
+代码仓库：
 
-文档 wiki ：https://gitee.com/xujcwwahzxh/gojuuon_helper/wikis
+Github：https://github.com/Foldblade/gojuuon_helper | Gitee：https://gitee.com/xujcwwahzxh/gojuuon_helper
+
+文档 wiki ：
+
+Github：https://github.com/Foldblade/gojuuon_helper | Gitee：https://gitee.com/xujcwwahzxh/gojuuon_helper/wikis
 
 意见与建议请发 issue 。文档统一采用 Markdown 格式。请在 dev 分支进行开发， master 仅作发版之用。文档中禁止出现无意义的文本。
 
