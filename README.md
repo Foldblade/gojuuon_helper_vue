@@ -14,7 +14,11 @@ Github：https://github.com/Foldblade/gojuuon_helper | Gitee：https://gitee.com
 
 Github：https://github.com/Foldblade/gojuuon_helper | Gitee：https://gitee.com/xujcwwahzxh/gojuuon_helper/wikis
 
-意见与建议请发 issue 。文档统一采用 Markdown 格式。请在 dev 分支进行开发， master 仅作发版之用。文档中禁止出现无意义的文本。
+1. 意见与建议请发 issue 
+2. 文档统一采用 Markdown 格式
+3. 请在 dev 分支进行开发， master 仅作发版之用。建议先 fork 再 pull requests
+4. 文档中禁止出现无意义的文本
+5. 产生冲突请在群里吼一声交流下
 
 ## 开始贡献
 
