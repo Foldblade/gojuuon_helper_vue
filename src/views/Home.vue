@@ -38,7 +38,10 @@
     </div>
     <div class="mdui-row">
       <div class="mdui-col-md-4 mdui-col-offset-md-1 mdui-col-xs-6 mdui-m-y-2">
-        <div class="mdui-card mdui-hoverable mdui-ripple">
+        <div
+          class="mdui-card mdui-hoverable mdui-ripple"
+          v-on:click="this.$router.push('/practise/normal')"
+        >
           <div class="mdui-card-media">
             <img src="~@/assets/img/mark-x-_eXhjCNyha8-unsplash.jpg" />
             <div
@@ -53,7 +56,10 @@
         </div>
       </div>
       <div class="mdui-col-md-4 mdui-col-offset-md-1 mdui-col-xs-6 mdui-m-y-2">
-        <div class="mdui-card mdui-hoverable mdui-ripple">
+        <div
+          class="mdui-card mdui-hoverable mdui-ripple"
+          v-on:click="this.$router.push('/practise/fast')"
+        >
           <div class="mdui-card-media">
             <img src="~@/assets/img/joan-tran-MzfsoOm9GVQ-unsplash.jpg" />
             <div
@@ -68,7 +74,10 @@
         </div>
       </div>
       <div class="mdui-col-md-4 mdui-col-offset-md-1 mdui-col-xs-6 mdui-m-y-2">
-        <div class="mdui-card mdui-hoverable mdui-ripple">
+        <div
+          class="mdui-card mdui-hoverable mdui-ripple"
+          v-on:click="this.$router.push('/practise/zen')"
+        >
           <div class="mdui-card-media">
             <img src="~@/assets/img/kari-shea-B8JFJWzAC9s-unsplash.jpg" />
             <div
@@ -83,7 +92,10 @@
         </div>
       </div>
       <div class="mdui-col-md-4 mdui-col-offset-md-1 mdui-col-xs-6 mdui-m-y-2">
-        <div class="mdui-card mdui-hoverable mdui-ripple">
+        <div
+          class="mdui-card mdui-hoverable mdui-ripple"
+          v-on:click="this.$router.push('/practise/review')"
+        >
           <div class="mdui-card-media">
             <img src="~@/assets/img/danis-lou-jfZfdQtcH6k-unsplash.jpg" />
             <div
@@ -107,7 +119,10 @@
     </div>
     <div class="mdui-row">
       <div class="mdui-col-md-4 mdui-col-offset-md-1 mdui-col-xs-6 mdui-m-y-2">
-        <div class="mdui-card mdui-hoverable mdui-ripple">
+        <div
+          class="mdui-card mdui-hoverable mdui-ripple"
+          v-on:click="this.$router.push('/personalCenter')"
+        >
           <div class="mdui-card-media">
             <img src="~@/assets/img/sorasak-_UIN-pFfJ7c-unsplash.jpg" />
             <div

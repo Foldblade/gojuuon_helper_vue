@@ -127,7 +127,7 @@
           <i class="mdui-icon material-icons">fitness_center</i>
           <label>练习</label>
         </router-link>
-        <router-link to="/personalCenter.html" class="mdui-ripple">
+        <router-link to="/personalCenter" class="mdui-ripple">
           <i class="mdui-icon material-icons">manage_accounts</i>
           <label>个人中心</label>
         </router-link>
