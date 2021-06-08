@@ -11,7 +11,7 @@
         <router-link to="/" class="mdui-typo-headline mdui-hidden-sm-down"
           >五十音助手</router-link
         >
-        <span class="mdui-typo-title mdui-hidden-sm-down">{{
+        <span class="mdui-typo-title mdui-hidden-sm-down mdui-m-l-5">{{
           appbarTitle
         }}</span>
         <!-- 小屏仅显示当前路由 Title  -->
@@ -26,7 +26,7 @@
       <ul class="mdui-list">
         <li class="mdui-list-item mdui-ripple">
           <i class="mdui-list-item-icon mdui-icon material-icons">home</i>
-          <router-link to="/" class="mdui-list-item-content">首页</router-link>
+          <router-link to="/" class="mdui-list-item-content">主页</router-link>
         </li>
         <li class="mdui-subheader-inset">学习</li>
         <li class="mdui-list-item mdui-ripple">
@@ -81,24 +81,28 @@
     <router-view v-on:updateAppbarTitle="updateAppbarTitle" />
   </main>
 
-  <footer class="mdui-m-t-3">
+  <footer>
     <div class="mdui-appbar">
-      <div class="mdui-hidden-sm-down mdui-color-theme">
-        <div class="mdui-container mdui-typo">
+      <div
+        class="mdui-hidden-sm-down mdui-color-theme"
+        style="height: 192px; display: flex; flex-direction: column"
+      >
+        <div class="mdui-container mdui-typo" style="flex: auto">
           <div class="mdui-row">
             <div class="mdui-col-md-5 mdui-col-sm-12">
               <h4 class="mdui-text-color-white">五十音助手<br /></h4>
               <p
                 class="mdui-text-color-white-secondary mdui-typo-caption-opacity mdui-m-b-2"
               >
-                本站需使用如Firefox或Chrome等现代浏览器，方有完整浏览体验。如遇功能缺失，请更换您的浏览器再试。
+                本站需使用如 Firefox 或 Chrome
+                等现代浏览器，方有完整浏览体验。如遇功能缺失，请更换您的浏览器再试。
               </p>
             </div>
           </div>
         </div>
 
         <div
-          style="background: rgba(0, 0, 0, 0.15)"
+          style="background: rgba(0, 0, 0, 0.15); flex: none"
           class="mdui-p-y-1 mdui-typo"
         >
           <div class="mdui-container">
@@ -107,6 +111,7 @@
             >
             <span class="mdui-text-color-theme-secondary mdui-m-l-1"
               ><a
+                target="_blank"
                 class="mdui-text-color-white-secondary"
                 href="https://github.com/foldblade/gojuuon_helper"
                 >五十音助手</a
@@ -121,7 +126,7 @@
       >
         <router-link to="/" class="mdui-ripple">
           <i class="mdui-icon material-icons">home</i>
-          <label>首页</label>
+          <label>主页</label>
         </router-link>
         <router-link to="/#practice" class="mdui-ripple">
           <i class="mdui-icon material-icons">fitness_center</i>
@@ -141,9 +146,14 @@
 .mdui-bottom-nav-fixed {
   padding-bottom: 0px;
 }
+main {
+  min-height: calc(100vh - 64px - 192px);
+}
 @media (max-width: 1023.9px) {
   .mdui-bottom-nav-fixed {
     padding-bottom: 56px;
+  }
+  main {
   }
 }
 </style>
@@ -157,12 +167,33 @@ export default {
       appbarSubtitle: "",
     };
   },
+  inject: ["globalVariable"],
   created() {
     console.log("App created");
     this.updateTitle("五十音助手");
   },
   mounted() {
     console.log("App mounted");
+
+    if (localStorage.getItem("setting") != null) {
+      //自定义代码
+      this.globalVariable.setting = JSON.parse(localStorage.getItem("setting"));
+    } else {
+      localStorage.setItem(
+        "setting",
+        JSON.stringify(this.globalVariable.setting)
+      );
+    }
+    if (this.globalVariable.setting.displayMode == "auto") {
+      document.querySelector("body").className =
+        "mdui-theme-layout-auto mdui-theme-primary-indigo mdui-theme-accent-pink mdui-drawer-body-left mdui-bottom-nav-fixed mdui-appbar-with-toolbar";
+    } else if (this.globalVariable.setting.displayMode == "dark") {
+      document.querySelector("body").className =
+        "mdui-theme-layout-dark mdui-theme-primary-indigo mdui-theme-accent-pink mdui-drawer-body-left mdui-bottom-nav-fixed mdui-appbar-with-toolbar";
+    } else if (this.globalVariable.setting.displayMode == "light") {
+      document.querySelector("body").className =
+        "mdui-theme-layout-light mdui-theme-primary-indigo mdui-theme-accent-pink mdui-drawer-body-left mdui-bottom-nav-fixed mdui-appbar-with-toolbar";
+    }
   },
   methods: {
     updateTitle(titleName) {

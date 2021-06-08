@@ -10,7 +10,7 @@
       <!-- Seion -->
       <div class="mdui-xs-12">
         <div class="mdui-table-fluid">
-          <table class="mdui-table mdui-table-hoverable">
+          <table class="mdui-table">
             <thead>
               <tr>
                 <th></th>
@@ -40,12 +40,14 @@
                   :key="index"
                 >
                   <td
-                    class="mdui-text-center mdui-typo"
+                    class="mdui-text-center mdui-typo mdui-ripple"
                     v-if="
                       globalVariable.gojuuon['seion']['hiragana'][line]
                         .length == 1
                     "
                     v-bind:name="'s' + '_' + line + '_' + index"
+                    v-bind:id="'s' + '_' + line + '_' + index"
+                    v-on:click="changeColor('s' + '_' + line + '_' + index)"
                     colspan="5"
                   >
                     <!-- ん -->
@@ -53,19 +55,25 @@
                       on="seion"
                       v-bind:index="index"
                       v-bind:line="line"
-                      v-bind:romanization="romanization"
+                      v-bind:romanization="
+                        this.globalVariable.setting.romanization
+                      "
                     ></TableGojuuonCell>
                   </td>
                   <td
                     v-else
-                    class="mdui-text-center mdui-typo"
+                    class="mdui-text-center mdui-typo mdui-ripple"
                     v-bind:name="'s' + '_' + line + '_' + index"
+                    v-bind:id="'s' + '_' + line + '_' + index"
+                    v-on:click="changeColor('s' + '_' + line + '_' + index)"
                   >
                     <TableGojuuonCell
                       on="seion"
                       v-bind:index="index"
                       v-bind:line="line"
-                      v-bind:romanization="romanization"
+                      v-bind:romanization="
+                        this.globalVariable.setting.romanization
+                      "
                     ></TableGojuuonCell>
                   </td>
                 </template>
@@ -80,7 +88,7 @@
       <!-- Dakuon -->
       <div class="mdui-xs-12">
         <div class="mdui-table-fluid">
-          <table class="mdui-table mdui-table-hoverable">
+          <table class="mdui-table">
             <thead>
               <tr>
                 <th></th>
@@ -110,14 +118,18 @@
                   :key="index"
                 >
                   <td
-                    class="mdui-text-center mdui-typo"
+                    class="mdui-text-center mdui-typo mdui-ripple"
                     v-bind:name="'d' + '_' + line + '_' + index"
+                    v-bind:id="'d' + '_' + line + '_' + index"
+                    v-on:click="changeColor('d' + '_' + line + '_' + index)"
                   >
                     <TableGojuuonCell
                       on="dakuon"
                       v-bind:index="index"
                       v-bind:line="line"
-                      v-bind:romanization="romanization"
+                      v-bind:romanization="
+                        this.globalVariable.setting.romanization
+                      "
                     ></TableGojuuonCell>
                   </td>
                 </template>
@@ -132,7 +144,7 @@
       <!-- Youon -->
       <div class="mdui-xs-12">
         <div class="mdui-table-fluid">
-          <table class="mdui-table mdui-table-hoverable">
+          <table class="mdui-table">
             <thead>
               <tr>
                 <th></th>
@@ -164,14 +176,18 @@
                   :key="index"
                 >
                   <td
-                    class="mdui-text-center mdui-typo"
+                    class="mdui-text-center mdui-typo mdui-ripple"
                     v-bind:name="'y' + '_' + line + '_' + index"
+                    v-bind:id="'y' + '_' + line + '_' + index"
+                    v-on:click="changeColor('y' + '_' + line + '_' + index)"
                   >
                     <TableGojuuonCell
                       on="youon"
                       v-bind:index="index"
                       v-bind:line="line"
-                      v-bind:romanization="romanization"
+                      v-bind:romanization="
+                        this.globalVariable.setting.romanization
+                      "
                     ></TableGojuuonCell>
                   </td>
                 </template>
@@ -180,6 +196,42 @@
           </table>
         </div>
       </div>
+      <div class="mdui-xs-12 mdui-m-y-3 mdui-text-center">
+        <button
+          class="mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-ripple"
+          mdui-dialog="{target: '#romanizationDialog'}"
+        >
+          <i class="mdui-icon material-icons">settings</i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mdui-dialog" id="romanizationDialog">
+    <div class="mdui-dialog-title">罗马字方案</div>
+    <div class="mdui-dialog-content" style="overflow: visible">
+      <div class="mdui-p-y-3">
+        <select
+          class="mdui-select"
+          v-model="globalVariable.setting.romanization"
+          mdui-select
+        >
+          <option value="hepburn-romanization">平文式（赫本式，默认）</option>
+          <option value="kunrei-shiki-romanization">
+            训令式（文部省式，ISO 3602 宽式）
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="mdui-dialog-actions">
+      <button class="mdui-btn mdui-ripple" mdui-dialog-close>取消</button>
+      <button
+        class="mdui-btn mdui-ripple"
+        @click="saveSetting"
+        mdui-dialog-confirm
+      >
+        确认
+      </button>
     </div>
   </div>
 </template>
@@ -193,15 +245,36 @@ export default {
   components: {
     TableGojuuonCell,
   },
-  data() {
-    return {
-      romanization: "hepburn-romanization",
-    };
-  },
   inject: ["globalVariable"],
   mounted() {
     this.$emit("updateAppbarTitle", "五十音图");
     mdui.mutation();
+  },
+  methods: {
+    saveSetting: function () {
+      localStorage.setItem(
+        "setting",
+        JSON.stringify(this.globalVariable.setting)
+      );
+    },
+    changeColor: function (elementName) {
+      let nameList = elementName.split("_");
+      if (
+        nameList[0] == "s" &&
+        this.globalVariable.gojuuon["seion"]["katakana"][nameList[1]][
+          nameList[2]
+        ].slice(0, 1) == "("
+      ) {
+        // nothing here
+      } else {
+        let element = document.getElementById(elementName);
+        if (element.classList.contains("mdui-text-color-theme-accent")) {
+          element.classList.remove("mdui-text-color-theme-accent");
+        } else {
+          element.classList.add("mdui-text-color-theme-accent");
+        }
+      }
+    },
   },
 };
 </script>

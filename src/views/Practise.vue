@@ -1,10 +1,9 @@
 <template>
-  <h1>This is Practise page</h1>
+  <!--<h1>This is Practise page</h1>-->
   <router-view />
 </template>
 
-<style>
-</style>
+<style></style>
 
 <script>
 export default {

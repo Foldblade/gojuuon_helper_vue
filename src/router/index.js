@@ -25,19 +25,20 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/Table.vue"),
   },
-  {
-    path: "/personalCenter",
-    name: "PersonalCenter",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/PersonalCenter.vue"),
-  },
+  // {
+  //   path: "/personalCenter",
+  //   name: "PersonalCenter",
+  //   // route level code-splitting
+  //   // this generates a separate chunk (about.[hash].js) for this route
+  //   // which is lazy-loaded when the route is visited.
+  //   component: () =>
+  //     import(/* webpackChunkName: "about" */ "../views/PersonalCenter.vue"),
+  // },
   {
     path: "/practise",
     name: "Practise",
     component: () => import("../views/Practise.vue"),
+    redirect: "/practise/normal",
     children: [
       {
         path: "normal",
@@ -55,6 +56,26 @@ const routes = [
         path: "review",
         component: () => import("../views/practise/Review.vue"),
       },
+    ],
+  },
+  {
+    path: "/personalCenter",
+    name: "PersonalCenter",
+    component: () => import("../views/PersonalCenter.vue"),
+    redirect: "/personalCenter/center",
+    children: [
+      {
+        path: "center",
+        component: () => import("../views/personalCenter/Center.vue"),
+      },
+      {
+        path: "setting",
+        component: () => import("../views/personalCenter/Setting.vue"),
+      },
+      // {
+      //   path: "logIn",
+      //   component: () => import("../views/personalCenter/Review.vue"),
+      // },
     ],
   },
 ];
