@@ -260,10 +260,10 @@ export default {
     changeColor: function (elementName) {
       let nameList = elementName.split("_");
       if (
-        nameList[0] == "s" &&
+        nameList[0] === "s" &&
         this.globalVariable.gojuuon["seion"]["katakana"][nameList[1]][
           nameList[2]
-        ].slice(0, 1) == "("
+        ].slice(0, 1) === "("
       ) {
         // nothing here
       } else {
