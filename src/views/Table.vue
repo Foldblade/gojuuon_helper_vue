@@ -1,14 +1,14 @@
 <template>
   <div class="mdui-container mdui-typo">
     <div class="mdui-row">
-      <div class="mdui-xs-12">
+      <div class="mdui-col-xs-12">
         <div class="mdui-typo-display-1 mdui-m-t-3">五十音图</div>
       </div>
-      <div class="mdui-xs-12">
+      <div class="mdui-col-xs-12">
         <div class="mdui-typo-headline-opacity mdui-m-t-3">清音</div>
       </div>
       <!-- Seion -->
-      <div class="mdui-xs-12">
+      <div class="mdui-col-xs-12">
         <div class="mdui-table-fluid">
           <table class="mdui-table">
             <thead>
@@ -82,11 +82,11 @@
           </table>
         </div>
       </div>
-      <div class="mdui-xs-12">
+      <div class="mdui-col-xs-12">
         <div class="mdui-typo-headline-opacity mdui-m-t-3">浊音</div>
       </div>
       <!-- Dakuon -->
-      <div class="mdui-xs-12">
+      <div class="mdui-col-xs-12">
         <div class="mdui-table-fluid">
           <table class="mdui-table">
             <thead>
@@ -138,11 +138,11 @@
           </table>
         </div>
       </div>
-      <div class="mdui-xs-12">
+      <div class="mdui-col-xs-12">
         <div class="mdui-typo-headline-opacity mdui-m-t-3">拗音</div>
       </div>
       <!-- Youon -->
-      <div class="mdui-xs-12">
+      <div class="mdui-col-xs-12">
         <div class="mdui-table-fluid">
           <table class="mdui-table">
             <thead>
@@ -196,7 +196,7 @@
           </table>
         </div>
       </div>
-      <div class="mdui-xs-12 mdui-m-y-3 mdui-text-center">
+      <div class="mdui-col-xs-12 mdui-m-y-3 mdui-text-center">
         <button
           class="mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-ripple"
           mdui-dialog="{target: '#romanizationDialog'}"

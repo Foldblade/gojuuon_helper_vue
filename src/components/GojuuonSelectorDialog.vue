@@ -7,11 +7,17 @@
           <div class="mdui-col-xs-12 mdui-m-y-1">
             <div class="mdui-container mdui-typo">
               <div class="mdui-row">
-                <div class="mdui-xs-12">
-                  <div class="mdui-typo-headline-opacity mdui-m-t-3">清音</div>
+                <div class="mdui-col-xs-12">
+                  <div class="mdui-typo-headline-opacity mdui-m-t-1">
+                    练习方向
+                  </div>
+                </div>
+                <GojuuonSelectorFromToSelector />
+                <div class="mdui-col-xs-12">
+                  <div class="mdui-typo-headline-opacity mdui-m-t-2">清音</div>
                 </div>
                 <!-- Seion -->
-                <div class="mdui-xs-12">
+                <div class="mdui-col-xs-12">
                   <div class="mdui-table-fluid">
                     <table class="mdui-table">
                       <thead>
@@ -119,11 +125,11 @@
                     </table>
                   </div>
                 </div>
-                <div class="mdui-xs-12">
-                  <div class="mdui-typo-headline-opacity mdui-m-t-3">浊音</div>
+                <div class="mdui-col-xs-12">
+                  <div class="mdui-typo-headline-opacity mdui-m-t-2">浊音</div>
                 </div>
                 <!-- Dakuon -->
-                <div class="mdui-xs-12">
+                <div class="mdui-col-xs-12">
                   <div class="mdui-table-fluid">
                     <table class="mdui-table">
                       <thead>
@@ -203,11 +209,11 @@
                     </table>
                   </div>
                 </div>
-                <div class="mdui-xs-12">
-                  <div class="mdui-typo-headline-opacity mdui-m-t-3">拗音</div>
+                <div class="mdui-col-xs-12">
+                  <div class="mdui-typo-headline-opacity mdui-m-t-2">拗音</div>
                 </div>
                 <!-- Youon -->
-                <div class="mdui-xs-12">
+                <div class="mdui-col-xs-12">
                   <div class="mdui-table-fluid">
                     <table class="mdui-table">
                       <thead>
@@ -291,7 +297,7 @@
                     </table>
                   </div>
                 </div>
-                <div class="mdui-xs-12 mdui-m-t-3 mdui-text-center"></div>
+                <div class="mdui-col-xs-12 mdui-m-t-2 mdui-text-center"></div>
               </div>
             </div>
           </div>
@@ -313,11 +319,13 @@
 
 <script>
 import GojuuonSelectorTableCell from "@/components/GojuuonSelectorTableCell.vue";
+import GojuuonSelectorFromToSelector from "@/components/GojuuonSelectorFromToSelector.vue";
 import mdui from "mdui";
 
 export default {
   components: {
     GojuuonSelectorTableCell,
+    GojuuonSelectorFromToSelector,
   },
   methods: {
     selectTable: function (elementName) {

@@ -187,6 +187,8 @@ const settingDefault = {
   zenBg: "../audio/鹿威.m4a",
   romanization: "hepburn-romanization",
   displayMode: "auto",
+  from: "kiragana",
+  to: "katakana",
 };
 
 var setting = settingDefault;
