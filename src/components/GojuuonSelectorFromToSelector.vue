@@ -65,7 +65,7 @@ export default {
       refreshFromSelector: true,
       refreshToSelector: true,
       fromToNameValue: [
-        ["平假名", "kiragana"],
+        ["平假名", "hiragana"],
         ["片假名", "katakana"],
         ["罗马字", "romanization"],
       ],

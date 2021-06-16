@@ -3,8 +3,8 @@
     <div class="mdui-row">
       <div class="mdui-col-xs-12">
         <ul class="mdui-list">
-          <li class="mdui-subheader">账号与同步</li>
-          <li class="mdui-list-item mdui-ripple">
+          <li class="mdui-subheader">账号与同步（开发中）</li>
+          <!--<li class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons"
               >account_circle</i
             >
@@ -15,6 +15,24 @@
               >app_registration
             </i>
             <div class="mdui-list-item-content">注册</div>
+          </li>-->
+          <li class="mdui-list-item">
+            <i
+              class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-theme-disabled"
+              >account_circle</i
+            >
+            <div class="mdui-list-item-content mdui-text-color-theme-disabled">
+              登录
+            </div>
+          </li>
+          <li class="mdui-list-item">
+            <i
+              class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-theme-disabled"
+              >app_registration
+            </i>
+            <div class="mdui-list-item-content mdui-text-color-theme-disabled">
+              注册
+            </div>
           </li>
           <li class="mdui-subheader">学习记录</li>
           <li class="mdui-list-item mdui-ripple">
@@ -36,7 +54,10 @@
             <div class="mdui-list-item-content">设置</div>
           </li>
           <li class="mdui-subheader">其他</li>
-          <li class="mdui-list-item mdui-ripple">
+          <li
+            class="mdui-list-item mdui-ripple"
+            v-on:click="this.$router.push('/personalCenter/about')"
+          >
             <i class="mdui-list-item-icon mdui-icon material-icons">info</i>
             <div class="mdui-list-item-content">关于</div>
           </li>

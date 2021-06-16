@@ -12,7 +12,7 @@ Github：https://github.com/Foldblade/gojuuon_helper | Gitee：https://gitee.com
 
 文档 wiki ：
 
-Github：https://github.com/Foldblade/gojuuon_helper | Gitee：https://gitee.com/xujcwwahzxh/gojuuon_helper/wikis
+Github：https://github.com/Foldblade/gojuuon_helper/wikis | Gitee：https://gitee.com/xujcwwahzxh/gojuuon_helper/wikis
 
 1. 意见与建议请发 issue 
 2. 文档统一采用 Markdown 格式
@@ -28,3 +28,4 @@ Github：https://github.com/Foldblade/gojuuon_helper | Gitee：https://gitee.com
 2. cd into this repo's dir
 3. npm install
 4. npm run serve
+

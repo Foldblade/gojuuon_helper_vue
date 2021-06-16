@@ -44,14 +44,18 @@
   </div>
   <div class="mdui-container mdui-typo">
     <div class="mdui-row">
-      <div
-        class="mdui-col-xs-12 mdui-col-lg-6 mdui-col-offset-lg-3 mdui-col-md-8 mdui-col-offset-md-2 mdui-col-sm-10 mdui-col-offset-sm-1"
-      >
-        <div></div>
+      <div class="mdui-col-xs-12 mdui-col-sm-10 mdui-col-offset-sm-1">
+        <template v-for="(item, index) in fastList" v-bind:key="item">
+          <FastModeCell
+            v-bind:selectedOneOn="item"
+            v-bind:index="index"
+          ></FastModeCell>
+        </template>
+
         <div class="mdui-col-xs-12 mdui-text-center mdui-m-y-2">
           <button
             class="mdui-btn mdui-btn-icon mdui-btn-raised mdui-color-theme-accent mdui-ripple"
-            onclick="prepare()"
+            v-on:click="addTwentyQuestions()"
             mdui-tooltip="{content: '再来一组'}"
           >
             <i class="mdui-icon material-icons">refresh</i>
@@ -79,6 +83,10 @@
                 class="mdui-text-color-red"
               >
                 红色 </strong
+              >，如果您作答正确但犹豫，请再次点击字符使得颜色变为<strong
+                class="mdui-text-color-amber"
+              >
+                黄色 </strong
               >。该模式下后台程序将会记录您的作答结果，请保持自觉哦。
             </p>
           </div>
@@ -97,10 +105,13 @@
 <script>
 import mdui from "mdui";
 import GojuuonSelectorDialog from "@/components/GojuuonSelectorDialog.vue";
+import FastModeCell from "@/components/FastModeCell.vue";
 
 export default {
   data() {
-    return {};
+    return {
+      fastList: [],
+    };
   },
   mounted() {
     mdui.mutation();
@@ -110,8 +121,39 @@ export default {
   inject: ["globalVariable"],
   components: {
     GojuuonSelectorDialog,
+    FastModeCell,
   },
   methods: {
+    addTwentyQuestions: function () {
+      let chosedOnList = [];
+      for (let on in this.globalVariable.selectedOn) {
+        for (
+          let lineIndex = 0;
+          lineIndex <= this.globalVariable.selectedOn[on]["lines"].length;
+          lineIndex++
+        ) {
+          let line = this.globalVariable.selectedOn[on]["lines"][lineIndex];
+          if (line) {
+            // 防止 undefined
+            for (let colIndex in this.globalVariable.selectedOn[on][line]) {
+              if (this.globalVariable.selectedOn[on][line][colIndex]) {
+                chosedOnList.push(on + "_" + line + "_" + colIndex);
+              }
+            }
+          }
+        }
+      }
+
+      if (chosedOnList.length == 0) {
+        mdui.alert("你还没有选择学习内容！请先选择后再进行学习。", "空空如也");
+      } else {
+        for (let i = 0; i < 20; i++) {
+          this.fastList.push(
+            chosedOnList[Math.floor(Math.random() * chosedOnList.length)]
+          );
+        }
+      }
+    },
     // setPlayer: function () {
     //   if (this.bg != "none") {
     //     this.$refs.audio.src = this.globalVariable.setting.zenBg;
