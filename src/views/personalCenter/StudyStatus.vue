@@ -15,45 +15,7 @@
                 </div>
               </div>
               <div class="mdui-col-xs-12">
-                <div
-                  class="mdui-text-center mdui-typo-title-opacity mdui-m-y-2"
-                >
-                  数字文物库
-                </div>
-                <div class="mdui-text-center mdui-typo-body-1 mdui-m-y-1">
-                  软件项目管理 课程设计。<br />
-                  起源于项目经理学习日语入门选修课时的个人需求。
-                </div>
-                <div
-                  class="mdui-typo-subheading-opacity mdui-text-center mdui-m-y-2"
-                >
-                  作者
-                </div>
-                <div class="mdui-text-center mdui-typo-body-1 mdui-m-y-1">
-                  T.X.<br />
-                  <small>不愿透露姓名的</small> Administrator<br />
-                  CSY<br />
-                  GYW
-                </div>
-              </div>
-              <div
-                class="mdui-col-md-4 mdui-col-offset-md-4 mdui-col-xs-6 mdui-col-offset-xs-3"
-              >
-                <img
-                  class="mdui-img-fluid mdui-img-circle mdui-m-y-2"
-                  src="~@/assets/img/avatar.jpg"
-                />
-              </div>
-              <div class="mdui-col-xs-12 mdui-typo-body-1">
-                <p class="mdui-text-center">
-                  欢迎关注项目经理的
-                  <a href="https://github.com/foldblade">Github</a>
-                  <br />欢迎为
-                  <a href="https://github.com/foldblade/gojuuon_helper"
-                    >本项目</a
-                  >
-                  Star
-                </p>
+                <v-chart class="chart" :option="option" />
               </div>
             </div>
           </div>
@@ -63,10 +25,191 @@
   </div>
 </template>
 
-<style></style>
+<style scoped>
+.chart {
+  height: calc((100vh - 56px - 56px) * 0.8);
+}
+</style>
 
 <script>
-export default {
+import { use } from "echarts/core";
+import {
+  DatasetComponent,
+  TitleComponent,
+  ToolboxComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  DataZoomComponent,
+} from "echarts/components";
+import { BarChart } from "echarts/charts";
+import { CanvasRenderer } from "echarts/renderers";
+import VChart, { THEME_KEY } from "vue-echarts";
+import { ref, defineComponent } from "vue";
+
+use([
+  DatasetComponent,
+  TitleComponent,
+  ToolboxComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  DataZoomComponent,
+  BarChart,
+  CanvasRenderer,
+]);
+
+export default defineComponent({
+  name: "HelloWorld",
   inject: ["globalVariable"],
-};
+  components: {
+    VChart,
+  },
+  provide: {
+    [THEME_KEY]: "dark",
+  },
+  data: function () {
+    return {};
+  },
+  setup: () => {
+    const rightColor = "#4caf50";
+    const wrongColor = "#f44336";
+    const hesitateColor = "#ffc107";
+
+    const option = ref({
+      title: {
+        // text: "清音学习记录",
+      },
+      toolbox: {
+        feature: {
+          dataZoom: {
+            xAxisIndex: false,
+          },
+          saveAsImage: {
+            pixelRatio: 2,
+          },
+        },
+      },
+      tooltip: {
+        trigger: "axis",
+        axisPointer: {
+          // Use axis to trigger tooltip
+          type: "shadow", // 'shadow' as default; can also be 'line' or 'shadow'
+        },
+      },
+      color: [rightColor, wrongColor, hesitateColor],
+      legend: {},
+      grid: {
+        left: "3%",
+        right: "10%",
+        bottom: "3%",
+        containLabel: true,
+      },
+      dataZoom: [
+        {
+          type: "inside",
+        },
+        {
+          yAxisIndex: 0,
+          type: "slider",
+          start: 0,
+          end: 10,
+        },
+      ],
+      xAxis: {
+        type: "value",
+      },
+      yAxis: {
+        type: "category",
+        inverse: true,
+        boundaryGap: true,
+        axisLabel: { interval: 0, rotate: -30 },
+        axisTick: { interval: 0, alignWithLabel: true },
+      },
+      dataset: {
+        source: [["status", "正确", "错误", "犹豫"]],
+      },
+      series: [
+        {
+          type: "bar",
+          stack: "total",
+          label: {
+            show: true,
+          },
+          emphasis: {
+            focus: "series",
+          },
+        },
+        {
+          type: "bar",
+          stack: "total",
+          label: {
+            show: true,
+          },
+          emphasis: {
+            focus: "series",
+          },
+        },
+        {
+          type: "bar",
+          stack: "total",
+          label: {
+            show: true,
+          },
+          emphasis: {
+            focus: "series",
+          },
+        },
+      ],
+    });
+
+    return { option };
+  },
+  mounted() {
+    let dataSetSource = [["status", "正确", "错误", "犹豫"]];
+    for (let on in this.globalVariable.studyRecord) {
+      for (
+        let lineIndex = 0;
+        lineIndex <= this.globalVariable.studyRecord[on]["lines"].length;
+        lineIndex++
+      ) {
+        let line = this.globalVariable.studyRecord[on]["lines"][lineIndex];
+        if (line) {
+          // 防止 undefined
+          for (let colIndex in this.globalVariable.studyRecord[on][line]) {
+            let onFullName, onHKR;
+            if (on == "s") {
+              onFullName = "seion";
+            } else if (on == "d") {
+              onFullName = "dakuon";
+            } else if (on == "y") {
+              onFullName = "youon";
+            }
+
+            onHKR =
+              this.globalVariable["gojuuon"][onFullName]["hiragana"][line][
+                colIndex
+              ] +
+              " " +
+              this.globalVariable["gojuuon"][onFullName]["katakana"][line][
+                colIndex
+              ] +
+              " " +
+              this.globalVariable["gojuuon"][onFullName][
+                this.globalVariable["setting"]["romanization"]
+              ][line][colIndex];
+            dataSetSource.push([
+              onHKR,
+              this.globalVariable.studyRecord[on][line][colIndex]["right"],
+              this.globalVariable.studyRecord[on][line][colIndex]["wrong"],
+              this.globalVariable.studyRecord[on][line][colIndex]["hesitate"],
+            ]);
+          }
+        }
+      }
+    }
+    console.log(dataSetSource);
+    this.option.dataset.source = dataSetSource;
+  },
+});
 </script>

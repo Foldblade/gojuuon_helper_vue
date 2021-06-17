@@ -35,7 +35,10 @@
             </div>
           </li>
           <li class="mdui-subheader">学习记录</li>
-          <li class="mdui-list-item mdui-ripple">
+          <li
+            class="mdui-list-item mdui-ripple"
+            v-on:click="this.$router.push('/personalCenter/studyStatus')"
+          >
             <i class="mdui-list-item-icon mdui-icon material-icons"
               >assessment</i
             >

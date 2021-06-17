@@ -18,7 +18,7 @@
                 <div
                   class="mdui-text-center mdui-typo-title-opacity mdui-m-y-2"
                 >
-                  数字文物库
+                  五十音助手
                 </div>
                 <div class="mdui-text-center mdui-typo-body-1 mdui-m-y-1">
                   软件项目管理 课程设计。<br />
