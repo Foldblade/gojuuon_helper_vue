@@ -485,28 +485,32 @@ export default {
         JSON.stringify(this.globalVariable.selectedOn)
       );
     },
-    // setSelected() {
-    //   for (let on in this.globalVariable.selectedOn) {
-    //     for (
-    //       let lineIndex = 0;
-    //       lineIndex <= this.globalVariable.selectedOn[on]["lines"].length;
-    //       lineIndex++
-    //     ) {
-    //       let line = this.globalVariable.selectedOn[on]["lines"][lineIndex];
-    //       if (line) {
-    //         // 防止 undefined
-    //         for (let colIndex in this.globalVariable.selectedOn[on][line]) {
-    //           if (this.globalVariable.selectedOn[on][line][colIndex]) {
-    //             this.selectItem(on + "_" + line + "_" + colIndex)
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
-    // },
+    setSelected() {
+      for (let on in this.globalVariable.selectedOn) {
+        for (
+          let lineIndex = 0;
+          lineIndex <= this.globalVariable.selectedOn[on]["lines"].length;
+          lineIndex++
+        ) {
+          let line = this.globalVariable.selectedOn[on]["lines"][lineIndex];
+          if (line) {
+            // 防止 undefined
+            for (let colIndex in this.globalVariable.selectedOn[on][line]) {
+              if (this.globalVariable.selectedOn[on][line][colIndex]) {
+                console.log(
+                  on + "_" + line + "_" + colIndex,
+                  this.globalVariable.selectedOn[on][line][colIndex]
+                );
+                this.selectItem(on + "_" + line + "_" + colIndex, "self");
+              }
+            }
+          }
+        }
+      }
+    },
   },
   mounted() {
-    // this.setSelected();
+    this.setSelected();
   },
   name: "GojuuonSelectorDialog",
   props: {},

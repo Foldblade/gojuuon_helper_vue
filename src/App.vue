@@ -174,9 +174,35 @@ export default {
   },
   mounted() {
     console.log("App mounted");
+    if (localStorage.getItem("globalVariableVersion") != null) {
+      if (
+        this.globalVariable.globalVariableVersion !=
+        localStorage.getItem("globalVariableVersion")
+      ) {
+        // 全局变量有更新
+        // 备份上一个版本的设置
+        let savedSetting = JSON.parse(localStorage.getItem("setting"));
+        localStorage.setItem("pre_setting", JSON.stringify(savedSetting));
+        // 备份上一个版本选中的五十音
+        let savedSelectedOn = JSON.parse(localStorage.getItem("selectedOn"));
+        localStorage.setItem("pre_selectedOn", JSON.stringify(savedSelectedOn));
+        // 备份上一个版本的学习记录
+        let savedStudyRecord = JSON.parse(localStorage.getItem("studyRecord"));
+        localStorage.setItem(
+          "pre_studyRecord",
+          JSON.stringify(savedStudyRecord)
+        );
 
+        // 更新……
+      }
+    } else {
+      localStorage.setItem(
+        "globalVariableVersion",
+        this.globalVariable.globalVariableVersion
+      );
+    }
     if (localStorage.getItem("setting") != null) {
-      //自定义代码
+      // 存在本地配置文件
       this.globalVariable.setting = JSON.parse(localStorage.getItem("setting"));
     } else {
       localStorage.setItem(
@@ -184,6 +210,32 @@ export default {
         JSON.stringify(this.globalVariable.setting)
       );
     }
+
+    if (localStorage.getItem("selectedOn") != null) {
+      // 存在本地设置文件
+      this.globalVariable.selectedOn = JSON.parse(
+        localStorage.getItem("selectedOn")
+      );
+    } else {
+      localStorage.setItem(
+        "selectedOn",
+        JSON.stringify(this.globalVariable.selectedOn)
+      );
+    }
+
+    if (localStorage.getItem("studyRecord") != null) {
+      // 存在本地配置文件
+      this.globalVariable.studyRecord = JSON.parse(
+        localStorage.getItem("studyRecord")
+      );
+    } else {
+      localStorage.setItem(
+        "studyRecord",
+        JSON.stringify(this.globalVariable.studyRecord)
+      );
+    }
+
+    // 显示模式
     if (this.globalVariable.setting.displayMode == "auto") {
       document.querySelector("body").className =
         "mdui-theme-layout-auto mdui-theme-primary-indigo mdui-theme-accent-pink mdui-drawer-body-left mdui-bottom-nav-fixed mdui-appbar-with-toolbar";

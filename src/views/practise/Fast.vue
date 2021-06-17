@@ -8,14 +8,14 @@
   ></audio>
   <div class="mdui-container-fluid">
     <div class="mdui-row">
-      <div class="mdui-progress">
+      <div class="mdui-progress mdui-invisible">
         <div
           class="mdui-progress-determinate mdui-color-theme-accent"
           style="width: 30%; opacity: 1"
         ></div>
       </div>
       <div class="mdui-col-xs-12">
-        <div class="mdui-float-left mdui-m-y-1">
+        <div class="mdui-float-left mdui-m-y-1 mdui-invisible">
           <i class="mdui-icon material-icons mdui-typo-body-1-opacity"
             >checklist</i
           >
@@ -75,15 +75,15 @@
               快速模式是一种迅速、简便的学习模式，适合在碎片化时间进行快速练习。
             </p>
             <p class="mdui-typo-body-2-opacity" style="text-indent: 2em">
-              使用方法：选择需要练习的内容后，屏幕上会刷新一批字符。请读入一个字符，思考对应的内容，然后点击这个字符查看答案。如果您回答正确，请保留<strong
+              使用方法：选择需要练习的内容后，屏幕上会刷新一批字符。请读入一个字符，思考对应的内容，然后点击这个字符查看下方的答案。如果您回答正确，请保留<strong
                 class="mdui-text-color-green"
               >
                 绿色 </strong
-              >，如果您回答错误，请再次点击字符使得颜色变为<strong
+              >；如果您回答错误，请再次点击字符使得颜色变为<strong
                 class="mdui-text-color-red"
               >
                 红色 </strong
-              >，如果您作答正确但犹豫，请再次点击字符使得颜色变为<strong
+              >；如果您作答正确但犹豫，请再次点击字符使得颜色变为<strong
                 class="mdui-text-color-amber"
               >
                 黄色 </strong
@@ -116,7 +116,7 @@ export default {
   mounted() {
     mdui.mutation();
     this.$emit("updateAppbarTitle", "快速模式");
-    // this.setPlayer();
+    this.addTwentyQuestions();
   },
   inject: ["globalVariable"],
   components: {
@@ -154,20 +154,6 @@ export default {
         }
       }
     },
-    // setPlayer: function () {
-    //   if (this.bg != "none") {
-    //     this.$refs.audio.src = this.globalVariable.setting.zenBg;
-    //     this.$refs.audio.volume = this.globalVariable.setting.bgVolume;
-    //     this.$refs.audio.load();
-    //     this.$refs.audio.play();
-    //     localStorage.setItem(
-    //       "setting",
-    //       JSON.stringify(this.globalVariable.setting)
-    //     );
-    //   } else {
-    //     this.$refs.audio.pause();
-    //   }
-    // },
   },
 };
 </script>

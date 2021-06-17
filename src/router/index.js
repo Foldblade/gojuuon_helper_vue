@@ -76,6 +76,10 @@ const routes = [
         path: "about",
         component: () => import("../views/personalCenter/About.vue"),
       },
+      {
+        path: "studyStatus",
+        component: () => import("../views/personalCenter/StudyStatus.vue"),
+      },
       // {
       //   path: "logIn",
       //   component: () => import("../views/personalCenter/Review.vue"),

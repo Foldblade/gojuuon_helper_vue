@@ -97,13 +97,11 @@ export default {
   },
   methods: {
     swapFromTo() {
-      console.log(this.from, this.to);
       let temp;
       temp = this.to;
       this.to = this.from;
       this.from = temp;
       this.refreshFromTo();
-      console.log(this.from, this.to);
     },
     refreshFromTo() {
       this.refreshFromSelector = false;
