@@ -165,7 +165,7 @@ export default defineComponent({
 
     return { option };
   },
-  mounted() {
+  created() {
     let dataSetSource = [["status", "正确", "错误", "犹豫"]];
     for (let on in this.globalVariable.studyRecord) {
       for (
@@ -208,7 +208,7 @@ export default defineComponent({
         }
       }
     }
-    console.log(dataSetSource);
+    // console.log(dataSetSource);
     this.option.dataset.source = dataSetSource;
   },
 });
