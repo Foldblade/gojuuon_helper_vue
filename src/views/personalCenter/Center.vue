@@ -44,7 +44,10 @@
             >
             <div class="mdui-list-item-content">学习情况</div>
           </li>
-          <li class="mdui-list-item mdui-ripple">
+          <li
+            class="mdui-list-item mdui-ripple"
+            mdui-dialog="{target: '#restoreDialog'}"
+          >
             <i class="mdui-list-item-icon mdui-icon material-icons">delete</i>
             <div class="mdui-list-item-content">清空学习记录</div>
           </li>
@@ -68,6 +71,24 @@
       </div>
     </div>
   </div>
+
+  <div class="mdui-dialog" id="restoreDialog">
+    <div class="mdui-dialog-title">清除学习记录</div>
+    <div class="mdui-dialog-content">
+      <p>Re: 从零开始的五十音学习。这将清除您所有的学习记录。</p>
+      <p>务请注意，该操作<strong>不可撤销</strong>。您确定要进行此操作吗？</p>
+    </div>
+    <div class="mdui-dialog-actions">
+      <button class="mdui-btn mdui-ripple" mdui-dialog-close>取消</button>
+      <button
+        class="mdui-btn mdui-ripple"
+        @click="restoreStudyRecord"
+        mdui-dialog-confirm
+      >
+        确认
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -75,5 +96,14 @@
 
 export default {
   inject: ["globalVariable"],
+  methods: {
+    restoreStudyRecord: function () {
+      this.globalVariable.studyRecord = this.globalVariable.studyRecordDefault;
+      localStorage.setItem(
+        "studyRecord",
+        JSON.stringify(this.globalVariable.studyRecord)
+      );
+    },
+  },
 };
 </script>

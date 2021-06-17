@@ -44,7 +44,12 @@
   </div>
   <div class="mdui-container mdui-typo">
     <div class="mdui-row">
-      <div class="mdui-col-xs-12 mdui-col-sm-10 mdui-col-offset-sm-1">
+      <div class="mdui-col-xs-12 mdui-col-sm-10 mdui-col-offset-sm-1 mdui-typo">
+        <template v-if="newToHere">
+          <div class="mdui-typo-body-1-opacity mdui-text-center">
+            选择内容，然后进行快速练习。
+          </div>
+        </template>
         <template v-for="(item, index) in fastList" v-bind:key="item">
           <FastModeCell
             v-bind:selectedOneOn="item"
@@ -58,7 +63,7 @@
             v-on:click="addTwentyQuestions()"
             mdui-tooltip="{content: '再来一组'}"
           >
-            <i class="mdui-icon material-icons">refresh</i>
+            <i class="mdui-icon material-icons">add</i>
           </button>
         </div>
       </div>
@@ -111,12 +116,12 @@ export default {
   data() {
     return {
       fastList: [],
+      newToHere: true,
     };
   },
   mounted() {
     mdui.mutation();
     this.$emit("updateAppbarTitle", "快速模式");
-    this.addTwentyQuestions();
   },
   inject: ["globalVariable"],
   components: {
@@ -125,6 +130,7 @@ export default {
   },
   methods: {
     addTwentyQuestions: function () {
+      this.newToHere = false;
       let chosedOnList = [];
       for (let on in this.globalVariable.selectedOn) {
         for (

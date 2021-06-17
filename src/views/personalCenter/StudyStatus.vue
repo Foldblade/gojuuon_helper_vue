@@ -4,7 +4,7 @@
       <div
         class="mdui-col-xs-12 mdui-col-sm-8 mdui-col-offset-sm-2 mdui-col-lg-6 mdui-col-offset-lg-3"
       >
-        <div class="mdui-card mdui-m-y-5">
+        <div class="mdui-card mdui-m-y-5" id="chartCard">
           <div class="mdui-card-content mdui-typo">
             <div class="mdui-row">
               <div class="mdui-col-xs-12">
@@ -66,7 +66,7 @@ export default defineComponent({
     VChart,
   },
   provide: {
-    [THEME_KEY]: "dark",
+    [THEME_KEY]: "auto",
   },
   data: function () {
     return {};
@@ -98,7 +98,11 @@ export default defineComponent({
         },
       },
       color: [rightColor, wrongColor, hesitateColor],
-      legend: {},
+      legend: {
+        textStyle: {
+          color: "rgba(255, 255, 255, 0.7)",
+        },
+      },
       grid: {
         left: "3%",
         right: "10%",
@@ -210,6 +214,16 @@ export default defineComponent({
     }
     // console.log(dataSetSource);
     this.option.dataset.source = dataSetSource;
+  },
+  mounted() {
+    let cardColor = window.getComputedStyle(
+      document.getElementById("chartCard"),
+      null
+    )["background-color"];
+    if (cardColor == "rgb(255, 255, 255)") {
+      this.option.darkMode = false;
+      this.option.legend.textStyle.color = "rgba(0,0,0,.54)";
+    }
   },
 });
 </script>
