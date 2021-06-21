@@ -6,9 +6,26 @@
 
 五十音助手（Gojuuon helper）是一个日语五十音学习软件。
 
-代码仓库：https://gitee.com/xujcwwahzxh/gojuuon_helper
+代码仓库：
 
-文档 wiki ：https://gitee.com/xujcwwahzxh/gojuuon_helper/wikis
+Github：https://github.com/Foldblade/gojuuon_helper | Gitee：https://gitee.com/xujcwwahzxh/gojuuon_helper
 
-意见与建议请发 issue 。文档统一采用 Markdown 格式。请在 dev 分支进行开发， master 仅作发版之用。
+文档 wiki ：
+
+Github：https://github.com/Foldblade/gojuuon_helper/wikis | Gitee：https://gitee.com/xujcwwahzxh/gojuuon_helper/wikis
+
+1. 意见与建议请发 issue 
+2. 文档统一采用 Markdown 格式
+3. 请在 dev 分支进行开发， master 仅作发版之用。建议先 fork 再 pull requests
+4. 文档中禁止出现无意义的文本
+5. 产生冲突请在群里吼一声交流下
+
+## 开始贡献
+
+您需要安装 Node.js 环境。
+
+1. git clone
+2. cd into this repo's dir
+3. npm install
+4. npm run serve
 
