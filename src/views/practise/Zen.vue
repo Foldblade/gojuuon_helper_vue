@@ -54,23 +54,65 @@
       <div
         class="mdui-col-xs-12 mdui-col-lg-6 mdui-col-offset-lg-3 mdui-col-md-8 mdui-col-offset-md-2 mdui-col-sm-10 mdui-col-offset-sm-1 test-area"
       >
-        <PractiseQuestionCard
-          question="あ"
-          fontStyle="font-family: 'Noto Serif SC'; font-weight: 200"
-        ></PractiseQuestionCard>
-        <hr />
-        <div class="mdui-row">
-          <template
-            v-for="(option, index) in ['a', 'e', 'o', 'u']"
-            :key="index"
-          >
-            <PractiseOptionCard
-              v-bind:option="option"
-              fontStyle="font-family: 'Noto Serif SC'; font-weight: 200"
+        <template v-if="newToHere">
+          <div class="mdui-typo-body-1-opacity mdui-text-center">
+            选择内容，然后进行练习。
+          </div>
+          <div class="mdui-col-xs-12 mdui-text-center mdui-m-y-2 mdui-typo">
+            <button
+              class="mdui-btn mdui-btn-icon mdui-btn-raised mdui-color-theme-accent mdui-ripple"
+              v-on:click="prepareQuestions()"
             >
-            </PractiseOptionCard>
+              <i class="mdui-icon material-icons">play_arrow </i>
+            </button>
+            <div class="mdui-typo-body-1-opacity mdui-m-y-1">开始练习</div>
+          </div>
+        </template>
+        <template v-else>
+          <template v-if="refresh">
+            <PractiseQuestionCard
+              v-bind:questionOn="test.question"
+              fontStyle="font-family: 'Noto Serif SC'; font-weight: 200"
+            ></PractiseQuestionCard>
+            <hr />
+            <div class="mdui-row">
+              <template v-for="(option, index) in test.options" :key="index">
+                <PractiseOptionCard
+                  v-bind:optionOn="option"
+                  fontStyle="font-family: 'Noto Serif SC'; font-weight: 200"
+                  v-on:click="click(option)"
+                  v-bind:answer="test.question"
+                  v-bind:selected="selected"
+                >
+                </PractiseOptionCard>
+              </template>
+            </div>
           </template>
-        </div>
+          <template v-else> </template>
+          <template v-if="done">
+            <div class="mdui-typo-body-1-opacity mdui-text-center">
+              <i
+                class="mdui-icon material-icons mdui-m-y-1"
+                style="font-size: 4rem"
+                >self_improvement
+              </i>
+              <div class="mdui-typo-body-1-opacity mdui-m-y-1">再接再厉。</div>
+              <div class="mdui-typo-body-2-opacity mdui-m-y-1">
+                <!--正确：{{ rightCount }} 错误：{{ wrongCount }}-->
+                {{ zenSentence }}
+              </div>
+            </div>
+            <div class="mdui-col-xs-12 mdui-text-center mdui-m-y-2 mdui-typo">
+              <button
+                class="mdui-btn mdui-btn-icon mdui-btn-raised mdui-color-theme-accent mdui-ripple"
+                v-on:click="prepareQuestions()"
+              >
+                <i class="mdui-icon material-icons">refresh</i>
+              </button>
+              <div class="mdui-typo-body-1-opacity mdui-m-y-1">再来一组</div>
+            </div>
+          </template>
+        </template>
       </div>
     </div>
   </div>
@@ -169,12 +211,21 @@ import mdui from "mdui";
 import GojuuonSelectorDialog from "@/components/GojuuonSelectorDialog.vue";
 import PractiseOptionCard from "@/components/PractiseOptionCard.vue";
 import PractiseQuestionCard from "@/components/PractiseQuestionCard.vue";
+import { ref } from "vue";
 
 export default {
   data() {
     return {
-      // bg: "../audio/鹿威.m4a",
-      // bgVolume: 0.6,
+      newToHere: true,
+      clicked: false,
+      selected: "",
+      refresh: false,
+      done: false,
+      // rightCount: 0,
+      // wrongCount: 0,
+      // timer: null,
+      // timerProcess: 0,
+      zenSentence: "",
     };
   },
   mounted() {
@@ -203,6 +254,156 @@ export default {
         this.$refs.audio.pause();
       }
     },
+    oneZenSentence: function () {
+      let sentences = [
+        "菩提本无树，明镜亦非台，本来无一物，何处惹尘埃。——六祖惠能",
+        "一切有为法，如梦幻泡影，如露亦如电，应作如是观。——《金刚经》",
+        "人身难得，六情难具，口辩难中，才聪难致，寿命难获，明人难遭，直言难有，大心难发，经法难闻，如来难值。——《五苦章句经》",
+        "人身难得，如优昙花。得人身者，如爪上土；失人身者，如大地土。——《涅盘经》",
+        "色不异空，空不异色；色即是空，空即是色。——《般若波罗蜜多心经》",
+        "是日已过，命亦随减，如少水鱼，斯有何乐，大众当勤精进，如救头燃，但念无常，慎勿放逸。——普贤菩萨警众偈",
+        "一切众生，皆具如来智慧德相，但因妄想执着，不能证得。——《华严经》",
+        "菩萨有一法。能断一切诸恶道苦。何等为一。谓于昼夜常念思惟。观察善法。令诸善法。念念增长。不容毫分。不善间杂。是即能令诸恶永断。善法圆满。——《十善业道经》",
+        "善护口业，不讥他过；善护身业，不犯律仪；善护意业， 清净无染。 ——《无量寿经》",
+        "诸恶莫作，诸善奉行；自净其意，是诸佛教。——七佛通戒偈",
+        "能行说之可，不能勿空语。虚伪无诚信，智者所屏弃。——《法句经》",
+        "若人无实语，小人中小人。实是法之阶，明中第一明。实是解脱道，财中第一财，救中第一救。《正法念处经》",
+        "所言诚实，如说修行。——《华严经》",
+        "不好责彼，务自省身。——《法句经》",
+        "不自尊举，不自赞叹。——《华严经》",
+        "不现异相，彰已有德。——《华严经》",
+        "所言诚实，如说修行。——《华严经》",
+        "心不离世间，亦不住世间，非于世间外，修行一切智。——《华严经》",
+        "佛法在世间，不离世间觉；离世觅菩提，犹如求兔角。——《六祖坛经·般若品》",
+        "一切诸佛身，皆有无尽相，出现虽无量，色相终不尽。——《华严经》",
+        "言行忠信，表里相应。——《佛说无量寿经》",
+      ];
+      return sentences[Math.floor(Math.random() * sentences.length)];
+    },
+    shuffle: function (input) {
+      for (var i = input.length - 1; i >= 0; i--) {
+        var randomIndex = Math.floor(Math.random() * (i + 1));
+        var itemAtIndex = input[randomIndex];
+        input[randomIndex] = input[i];
+        input[i] = itemAtIndex;
+      }
+      return input;
+    },
+    prepareQuestions: function () {
+      let chosedOnList = [];
+      this.done = false;
+      // this.rightCount = 0;
+      // this.wrongCount = 0;
+      for (let on in this.globalVariable.selectedOn) {
+        for (
+          let lineIndex = 0;
+          lineIndex <= this.globalVariable.selectedOn[on]["lines"].length;
+          lineIndex++
+        ) {
+          let line = this.globalVariable.selectedOn[on]["lines"][lineIndex];
+          if (line) {
+            // 防止 undefined
+            for (let colIndex in this.globalVariable.selectedOn[on][line]) {
+              if (this.globalVariable.selectedOn[on][line][colIndex]) {
+                chosedOnList.push(on + "_" + line + "_" + colIndex);
+              }
+            }
+          }
+        }
+      }
+      this.test.totalQuestions = this.shuffle(chosedOnList);
+      this.test.questionsQuery = [...this.test.totalQuestions]; // ES6 Deep copy
+
+      this.nextQuestion();
+    },
+    nextQuestion: function () {
+      this.selected = "";
+      if (this.test.totalQuestions.length == 0) {
+        mdui.alert("你还没有选择学习内容。请先选择后再进行学习。", "空之境界");
+      } else {
+        this.newToHere = false;
+        if (this.test.questionsQuery.length > 0) {
+          this.test.question = this.test.questionsQuery[0];
+          this.test.questionsQuery.shift();
+          this.test.questionsQuery = [...this.test.questionsQuery];
+          let options = [];
+          options.push(this.test.question);
+          for (let i = 0; i < 3; i++) {
+            let randOn = this.test.totalQuestions[
+              Math.floor(Math.random() * this.test.totalQuestions.length)
+            ];
+            while (options.includes(randOn)) {
+              randOn = this.test.totalQuestions[
+                Math.floor(Math.random() * this.test.totalQuestions.length)
+              ];
+            }
+            options.push(randOn); // 添加其他选项
+          }
+          this.test.options = [...this.shuffle(options)];
+          console.log(this.test.question, this.test.options);
+          // this.status = "refresh";
+          this.refresh = true;
+          // if (this.timer == null) {
+          //   this.timer = setInterval(() => {
+          //     this.timerProcess += 0.04;
+          //     if (this.timerProcess > 6) {
+          //       this.timerProcess = 0;
+          //       clearInterval(this.timer);
+          //       this.timer = null;
+          //       this.click("N/A"); // 超时未选中
+          //     }
+          //   }, 40);
+          // }
+        } else {
+          // this.status = "done";
+          this.refresh = false;
+          this.done = true;
+          this.zenSentence = this.oneZenSentence();
+          mdui.alert("您完成了一组练习。", "完成");
+        }
+      }
+    },
+    click: function (option) {
+      clearInterval(this.timer);
+      this.timer = null;
+      // let nameList = this.test.question.split("_");
+      this.clicked = true;
+      this.selected = option;
+      // if (option == this.test.question) {
+      //   this.rightCount++;
+      //   this.globalVariable["studyRecord"][nameList[0]][nameList[1]][
+      //     nameList[2]
+      //   ]["right"]++;
+      // } else {
+      //   this.wrongCount++;
+      //   this.globalVariable["studyRecord"][nameList[0]][nameList[1]][
+      //     nameList[2]
+      //   ]["wrong"]++;
+      // }
+      // localStorage.setItem(
+      //   "studyRecord",
+      //   JSON.stringify(this.globalVariable.studyRecord)
+      // );
+      setTimeout(() => {
+        //设置延迟执行
+        this.clicked = false;
+        this.refresh = false;
+        // this.timerProcess = 0;
+        // this.status = "";
+        this.$nextTick(() => {
+          this.nextQuestion();
+        });
+      }, 2000);
+    },
+  },
+  setup: () => {
+    let test = ref({
+      question: "",
+      options: [],
+      questionsQuery: [],
+      totalQuestions: [],
+    });
+    return { test };
   },
 };
 </script>

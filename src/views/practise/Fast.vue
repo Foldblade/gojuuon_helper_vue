@@ -130,7 +130,6 @@ export default {
   },
   methods: {
     addTwentyQuestions: function () {
-      this.newToHere = false;
       let chosedOnList = [];
       for (let on in this.globalVariable.selectedOn) {
         for (
@@ -153,10 +152,17 @@ export default {
       if (chosedOnList.length == 0) {
         mdui.alert("你还没有选择学习内容！请先选择后再进行学习。", "空空如也");
       } else {
+        this.newToHere = false;
+        let frontOn = "";
         for (let i = 0; i < 20; i++) {
-          this.fastList.push(
-            chosedOnList[Math.floor(Math.random() * chosedOnList.length)]
-          );
+          let chosedOn =
+            chosedOnList[Math.floor(Math.random() * chosedOnList.length)];
+          while (frontOn == chosedOn) {
+            chosedOn =
+              chosedOnList[Math.floor(Math.random() * chosedOnList.length)];
+          } // 保证连续两个不一样
+          frontOn = chosedOn;
+          this.fastList.push(chosedOn);
         }
       }
     },

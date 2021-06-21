@@ -1,27 +1,32 @@
 <template>
-  <audio
-    id="audio"
-    ref="audio"
-    v-bind:volume="bgVolume"
-    loop
-    hidden="true"
-  ></audio>
   <div class="mdui-container-fluid">
     <div class="mdui-row">
-      <div class="mdui-progress">
+      <div
+        class="mdui-progress"
+        v-bind:class="{ 'mdui-invisible': newToHere || done }"
+      >
         <div
           class="mdui-progress-determinate mdui-color-theme-accent"
-          style="width: 30%; opacity: 1"
+          style="opacity: 1"
+          v-bind:style="{ width: (timerProcess / 6) * 100 + '%' }"
         ></div>
       </div>
       <div class="mdui-col-xs-12">
-        <div class="mdui-float-left mdui-m-y-1">
+        <div
+          class="mdui-float-left mdui-m-y-1"
+          v-bind:class="{ 'mdui-invisible': newToHere || done }"
+        >
           <i class="mdui-icon material-icons mdui-typo-body-1-opacity"
             >checklist</i
           >
-          <span class="mdui-typo-body-1-opacity mdui-m-x-1">3 / 10</span>
+          <span class="mdui-typo-body-1-opacity mdui-m-x-1"
+            >{{ rightCount + wrongCount }} /
+            {{ test.totalQuestions.length }}</span
+          >
           <i class="mdui-icon material-icons mdui-typo-body-1-opacity">timer</i>
-          <span class="mdui-typo-body-1-opacity mdui-m-x-1">8s</span>
+          <span class="mdui-typo-body-1-opacity mdui-m-x-1"
+            >{{ (6 - timerProcess).toFixed(2) }}s</span
+          >
         </div>
         <div class="mdui-float-right">
           <button
@@ -47,23 +52,66 @@
       <div
         class="mdui-col-xs-12 mdui-col-lg-6 mdui-col-offset-lg-3 mdui-col-md-8 mdui-col-offset-md-2 mdui-col-sm-10 mdui-col-offset-sm-1 test-area"
       >
-        <PractiseQuestionCard
-          question="あ"
-          fontStyle=" font-weight: 200"
-        ></PractiseQuestionCard>
-        <hr />
-        <div class="mdui-row">
-          <template
-            v-for="(option, index) in ['a', 'e', 'o', 'u']"
-            :key="index"
-          >
-            <PractiseOptionCard
-              v-bind:option="option"
-              fontStyle="font-weight: 200"
+        <template v-if="newToHere">
+          <div class="mdui-typo-body-1-opacity mdui-text-center">
+            选择内容，然后进行练习。
+          </div>
+          <div class="mdui-col-xs-12 mdui-text-center mdui-m-y-2 mdui-typo">
+            <button
+              class="mdui-btn mdui-btn-icon mdui-btn-raised mdui-color-theme-accent mdui-ripple"
+              v-on:click="prepareQuestions()"
             >
-            </PractiseOptionCard>
+              <i class="mdui-icon material-icons">play_arrow </i>
+            </button>
+            <div class="mdui-typo-body-1-opacity mdui-m-y-1">开始练习</div>
+          </div>
+        </template>
+        <template v-else>
+          <template v-if="refresh">
+            <PractiseQuestionCard
+              v-bind:questionOn="test.question"
+              fontStyle=" font-weight: 200"
+            ></PractiseQuestionCard>
+            <hr />
+            <div class="mdui-row">
+              <template v-for="(option, index) in test.options" :key="index">
+                <PractiseOptionCard
+                  v-bind:optionOn="option"
+                  fontStyle="font-weight: 200"
+                  v-on:click="click(option)"
+                  v-bind:answer="test.question"
+                  v-bind:selected="selected"
+                >
+                </PractiseOptionCard>
+              </template>
+            </div>
           </template>
-        </div>
+          <template v-else> </template>
+          <template v-if="done">
+            <div class="mdui-typo-body-1-opacity mdui-text-center">
+              <i
+                class="mdui-icon material-icons mdui-m-y-1"
+                style="font-size: 4rem"
+                >celebration
+              </i>
+              <div class="mdui-typo-body-1-opacity mdui-m-y-1">
+                恭喜完成练习！
+              </div>
+              <div class="mdui-typo-body-2-opacity mdui-m-y-1">
+                正确：{{ rightCount }} 错误：{{ wrongCount }}
+              </div>
+            </div>
+            <div class="mdui-col-xs-12 mdui-text-center mdui-m-y-2 mdui-typo">
+              <button
+                class="mdui-btn mdui-btn-icon mdui-btn-raised mdui-color-theme-accent mdui-ripple"
+                v-on:click="prepareQuestions()"
+              >
+                <i class="mdui-icon material-icons">refresh</i>
+              </button>
+              <div class="mdui-typo-body-1-opacity mdui-m-y-1">再来一组</div>
+            </div>
+          </template>
+        </template>
       </div>
     </div>
   </div>
@@ -110,10 +158,21 @@ import mdui from "mdui";
 import GojuuonSelectorDialog from "@/components/GojuuonSelectorDialog.vue";
 import PractiseOptionCard from "@/components/PractiseOptionCard.vue";
 import PractiseQuestionCard from "@/components/PractiseQuestionCard.vue";
+import { ref } from "vue";
 
 export default {
   data() {
-    return {};
+    return {
+      newToHere: true,
+      clicked: false,
+      selected: "",
+      refresh: false,
+      done: false,
+      rightCount: 0,
+      wrongCount: 0,
+      timer: null,
+      timerProcess: 0,
+    };
   },
   mounted() {
     mdui.mutation();
@@ -127,20 +186,131 @@ export default {
     PractiseQuestionCard,
   },
   methods: {
-    // setPlayer: function () {
-    //   if (this.bg != "none") {
-    //     this.$refs.audio.src = this.globalVariable.setting.zenBg;
-    //     this.$refs.audio.volume = this.globalVariable.setting.bgVolume;
-    //     this.$refs.audio.load();
-    //     this.$refs.audio.play();
-    //     localStorage.setItem(
-    //       "setting",
-    //       JSON.stringify(this.globalVariable.setting)
-    //     );
-    //   } else {
-    //     this.$refs.audio.pause();
-    //   }
-    // },
+    shuffle: function (input) {
+      for (var i = input.length - 1; i >= 0; i--) {
+        var randomIndex = Math.floor(Math.random() * (i + 1));
+        var itemAtIndex = input[randomIndex];
+        input[randomIndex] = input[i];
+        input[i] = itemAtIndex;
+      }
+      return input;
+    },
+    prepareQuestions: function () {
+      let chosedOnList = [];
+      this.done = false;
+      this.rightCount = 0;
+      this.wrongCount = 0;
+      for (let on in this.globalVariable.selectedOn) {
+        for (
+          let lineIndex = 0;
+          lineIndex <= this.globalVariable.selectedOn[on]["lines"].length;
+          lineIndex++
+        ) {
+          let line = this.globalVariable.selectedOn[on]["lines"][lineIndex];
+          if (line) {
+            // 防止 undefined
+            for (let colIndex in this.globalVariable.selectedOn[on][line]) {
+              if (this.globalVariable.selectedOn[on][line][colIndex]) {
+                chosedOnList.push(on + "_" + line + "_" + colIndex);
+              }
+            }
+          }
+        }
+      }
+      this.test.totalQuestions = this.shuffle(chosedOnList);
+      this.test.questionsQuery = [...this.test.totalQuestions]; // ES6 Deep copy
+
+      this.nextQuestion();
+    },
+    nextQuestion: function () {
+      this.selected = "";
+
+      mdui.mutation();
+      if (this.test.totalQuestions.length == 0) {
+        mdui.alert("你还没有选择学习内容！请先选择后再进行学习。", "空空如也");
+      } else {
+        this.newToHere = false;
+        if (this.test.questionsQuery.length > 0) {
+          this.test.question = this.test.questionsQuery[0];
+          this.test.questionsQuery.shift();
+          this.test.questionsQuery = [...this.test.questionsQuery];
+          let options = [];
+          options.push(this.test.question);
+          for (let i = 0; i < 3; i++) {
+            let randOn = this.test.totalQuestions[
+              Math.floor(Math.random() * this.test.totalQuestions.length)
+            ];
+            while (options.includes(randOn)) {
+              randOn = this.test.totalQuestions[
+                Math.floor(Math.random() * this.test.totalQuestions.length)
+              ];
+            }
+            options.push(randOn); // 添加其他选项
+          }
+          this.test.options = [...this.shuffle(options)];
+          console.log(this.test.question, this.test.options);
+          // this.status = "refresh";
+          this.refresh = true;
+          if (this.timer == null) {
+            this.timer = setInterval(() => {
+              this.timerProcess += 0.04;
+              if (this.timerProcess > 6) {
+                this.timerProcess = 0;
+                clearInterval(this.timer);
+                this.timer = null;
+                this.click("N/A"); // 超时未选中
+              }
+            }, 40);
+          }
+        } else {
+          // this.status = "done";
+          this.refresh = false;
+          this.done = true;
+          mdui.alert("恭喜您完成一组练习。", "完成");
+        }
+      }
+    },
+    click: function (option) {
+      clearInterval(this.timer);
+      this.timer = null;
+      let nameList = this.test.question.split("_");
+      this.clicked = true;
+      this.selected = option;
+      if (option == this.test.question) {
+        this.rightCount++;
+        this.globalVariable["studyRecord"][nameList[0]][nameList[1]][
+          nameList[2]
+        ]["right"]++;
+      } else {
+        this.wrongCount++;
+        this.globalVariable["studyRecord"][nameList[0]][nameList[1]][
+          nameList[2]
+        ]["wrong"]++;
+      }
+      localStorage.setItem(
+        "studyRecord",
+        JSON.stringify(this.globalVariable.studyRecord)
+      );
+      setTimeout(() => {
+        //设置延迟执行
+        this.clicked = false;
+        this.refresh = false;
+        this.timerProcess = 0;
+        // this.status = "";
+        this.$nextTick(() => {
+          this.nextQuestion();
+        });
+      }, 2000);
+    },
+  },
+  setup: () => {
+    let test = ref({
+      question: "",
+      options: [],
+      questionsQuery: [],
+      totalQuestions: [],
+    });
+    return { test };
   },
 };
 </script>

@@ -497,10 +497,10 @@ export default {
             // 防止 undefined
             for (let colIndex in this.globalVariable.selectedOn[on][line]) {
               if (this.globalVariable.selectedOn[on][line][colIndex]) {
-                console.log(
-                  on + "_" + line + "_" + colIndex,
-                  this.globalVariable.selectedOn[on][line][colIndex]
-                );
+                // console.log(
+                //   on + "_" + line + "_" + colIndex,
+                //   this.globalVariable.selectedOn[on][line][colIndex]
+                // );
                 this.selectItem(on + "_" + line + "_" + colIndex, "self");
               }
             }

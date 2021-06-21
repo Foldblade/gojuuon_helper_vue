@@ -1,9 +1,8 @@
 <template>
-  <h1>This is Review page</h1>
+  <h1>This is Review page. Developing……</h1>
 </template>
 
-<style>
-</style>
+<style></style>
 
 <script>
 export default {
