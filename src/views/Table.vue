@@ -127,9 +127,7 @@
                       on="dakuon"
                       v-bind:index="index"
                       v-bind:line="line"
-                      v-bind:romanization="
-                        this.globalVariable.setting.romanization
-                      "
+                      v-bind:romanization="globalVariable.setting.romanization"
                     ></TableGojuuonCell>
                   </td>
                 </template>
@@ -235,6 +233,19 @@
     </div>
   </div>
 </template>
+
+<style>
+.mdui-table td,
+.mdui-table th {
+  padding: 12px 28px;
+}
+@media (max-width: 599.9px) {
+  .mdui-table td,
+  .mdui-table th {
+    padding: 3px 6px;
+  }
+}
+</style>
 
 <script>
 import mdui from "mdui";
