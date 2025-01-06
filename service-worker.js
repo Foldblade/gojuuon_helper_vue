@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.973c46010f1e814271553b3b510a2151.js"
+  "/precache-manifest.e22b88549fece1df12fa794cec2af45d.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "gojuuon_helper"});

@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0aa594"],{1142:function(n,t,a){"use strict";a.r(t);var e=a("7a23");function r(n,t,a,r,i,o){var u=Object(e["y"])("router-view");return Object(e["r"])(),Object(e["d"])(u)}var i=a("8ceb"),o={data:function(){return{romanization:"hepburn-romanization"}},inject:["globalVariable"],mounted:function(){this.$emit("updateAppbarTitle","个人中心"),i["a"].mutation()}};o.render=r;t["default"]=o}}]);
-//# sourceMappingURL=chunk-2d0aa594.6d163864.js.map
