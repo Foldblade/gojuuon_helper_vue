@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.e22b88549fece1df12fa794cec2af45d.js"
+  "/gojuuon_helper_vue/precache-manifest.6f6bad20237f63870103591259ce0ef0.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "gojuuon_helper"});
