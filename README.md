@@ -19,7 +19,7 @@ Document wiki: https://github.com/Foldblade/gojuuon_helper/wikis
 
 1. 意见与建议请发 issue。  Please post an issue for comments and suggestions
 2. 文档统一采用 Markdown 格式。 The document is in Markdown format
-3. 请在 dev 分支进行开发， master 仅作发版之用。建议先 fork 再 pull。 requests Please develop in the dev branch, master is only for release. It is recommended to fork first and then pull requests
+3. 请在 dev 分支进行开发， master 仅作发版之用。建议先 fork 再 pull。 Please develop in the dev branch, master is only for release. It is recommended to fork first and then pull requests
 4. 文档中禁止出现无意义的文本。 No meaningless text is allowed in the document
 
 ## 开始贡献 Start to Contribute
