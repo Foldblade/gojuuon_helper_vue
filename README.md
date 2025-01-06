@@ -6,16 +6,13 @@
 
 五十音助手（Gojuuon helper）是一个日语五十音学习软件。Gojuuon helper is a Japanese 50-sound learning software.
 
-请注意，该项目已被 Archive。Please be advised that this project has been archived. 
+请注意，该 vue 版本项目已被 Archive。Please be advised that this vue version project has been archived. 
 
 后续版本请参考：Please refer to the following link for following up updates:
 
 https://github.com/Foldblade/gojuuon_helper
 
 ---
-
-文档 wiki ：
-Document wiki: https://github.com/Foldblade/gojuuon_helper/wikis
 
 1. 意见与建议请发 issue。  Please post an issue for comments and suggestions
 2. 文档统一采用 Markdown 格式。 The document is in Markdown format
